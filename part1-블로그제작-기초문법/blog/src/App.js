@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 
@@ -10,89 +9,67 @@ function App() {
     '자바스크립트독학',
   ]);
   let [따봉, 따봉변경] = useState([0, 0, 0]);
-  let [modal, setModal] = useState(false);
+
+  let [modal, setModal] = useState([false, 0]);
+  let [입력값, 입력값변경] = useState('');
 
   return (
     <div className='App'>
       <div className='black-nav'>
         <h4>blog</h4>
       </div>
-      <button
-        onClick={() => {
-          const copy = [...글제목];
-          copy.sort();
-          글제목변경(copy);
-        }}
-      >
-        가나다순정렬
-      </button>
-      <button
-        onClick={() => {
-          const copy = [...글제목];
-          copy[0] = '여자 코트 추천';
-          글제목변경(copy);
-        }}
-      >
-        글제목변경
-      </button>
-
-      {/* <div className='list'>
-        <h4>
-          {글제목[0]}{' '}
-          <span
+      {글제목.map((a, i) => (
+        <div className='list' key={i}>
+          <h4
             onClick={() => {
-              따봉변경((따봉 += 1));
+              setModal(modal.map((v, index) => (index === 0 ? !v : a)));
             }}
           >
-            👍
-          </span>{' '}
-          {따봉}
-        </h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <div className='list'>
-        <h4>{글제목[1]}</h4>
-        <p>2월 17일 발행</p>
-      </div>
-      <div className='list'>
-        <h4
-          onClick={() => {
-            setModal(!modal);
-          }}
-        >
-          {글제목[2]}
-        </h4>
-        <p>2월 17일 발행</p>
-      </div> */}
-
-      {글제목.map(function (a, i) {
-        return (
-          <div className='list' key={i}>
-            <h4
-              onClick={() => {
-                setModal(!modal);
+            {a}
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                따봉변경(따봉.map((v, index) => (index === i ? v + 1 : v)));
               }}
             >
-              {a}
-              <span
-                onClick={() => {
-                  const copy = 따봉.map((v) => v);
-                  copy[i] += 1;
-                  따봉변경(copy);
-                }}
-              >
-                👍
-              </span>
-              {따봉[i]}
-            </h4>
-            <p>2월 17일 발행</p>
-          </div>
-        );
-      })}
+              👍
+            </span>
+            {따봉[i]}
+          </h4>
+          <p>2월 17일 발행</p>
+          <button
+            onClick={(e) => {
+              let copy2 = [...따봉];
+              copy2.splice(i, 1);
+              따봉변경(copy2);
+              let copy = [...글제목];
+              copy.splice(i, 1);
+              글제목변경(copy);
+            }}
+          >
+            글삭제
+          </button>
+        </div>
+      ))}
+      <input
+        onChange={(e) => {
+          입력값변경(e.target.value);
+        }}
+      ></input>
+      <button
+        onClick={() => {
+          let copy = [...글제목];
+          copy.unshift(입력값);
+          글제목변경(copy);
 
-      {modal === true ? (
-        <Modal 글제목={글제목} 글제목변경={글제목변경} />
-      ) : null}
+          let copy2 = [...따봉];
+          copy2.unshift(0);
+          따봉변경(copy2);
+        }}
+      >
+        입력
+      </button>
+      {modal[0] === true ? <Modal modal={modal} /> : null}
     </div>
   );
 }
@@ -100,10 +77,9 @@ function App() {
 function Modal(props) {
   return (
     <div className='modal'>
-      <h4>{props.글제목[0]}</h4>
+      <h4>{props.modal[1]}</h4>
       <p>날짜</p>
       <p>상세내용</p>
-      <div>{props.글제목변경}</div>
     </div>
   );
 }
