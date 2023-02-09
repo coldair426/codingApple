@@ -21,32 +21,21 @@ function App() {
       </Navbar>
       <div className='main-bg'></div>
       <Row>
-        <Col sm>
-          <img
-            src='https://codingapple1.github.io/shop/shoes1.jpg'
-            width='80%'
-          ></img>
-          <h4>{shoes[0].title}</h4>
-          <p>{shoes[0].price}</p>
-        </Col>
-        <Col sm>
-          <img
-            src='https://codingapple1.github.io/shop/shoes2.jpg'
-            width='80%'
-          ></img>
-          <h4>{shoes[1].title}</h4>
-          <p>{shoes[1].price}</p>
-        </Col>
-        <Col sm>
-          <img
-            src='https://codingapple1.github.io/shop/shoes3.jpg'
-            width='80%'
-          ></img>
-          <h4>{shoes[2].title}</h4>
-          <p>{shoes[2].price}</p>
-        </Col>
+        {shoes.map((_, i) => {
+          return <Item shoes={shoes[i]} />;
+        })}
       </Row>
     </div>
+  );
+}
+
+function Item(props) {
+  return (
+    <Col sm>
+      <img src={props.shoes.img} width='80%'></img>
+      <h4>{props.shoes.title}</h4>
+      <p>{props.shoes.price}</p>
+    </Col>
   );
 }
 
