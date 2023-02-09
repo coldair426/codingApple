@@ -2,29 +2,64 @@ import { useState } from 'react';
 import { Row, Col, Navbar, Nav, Container } from 'react-bootstrap';
 import './App.css';
 import data from './data.js';
+import Detail from './pages/Detail.js';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
 function App() {
   let [shoes] = useState(data);
+  let navigate = useNavigate();
 
   return (
     <div className='App'>
       <Navbar bg='dark' variant='dark'>
         <Container>
-          <Navbar.Brand href='#home'>HONG</Navbar.Brand>
+          <Navbar.Brand>HONG</Navbar.Brand>
           <Nav className='me-auto'>
-            <Nav.Link href='#home'>BEST</Nav.Link>
-            <Nav.Link href='#features'>MEN</Nav.Link>
-            <Nav.Link href='#features'>INTERIOR</Nav.Link>
-            <Nav.Link href='#features'>ELECTRONICS</Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate('./');
+              }}>
+              Home
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate('./detail');
+              }}>
+              Detail
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      <div className='main-bg'></div>
-      <Row>
-        {shoes.map((_, i) => {
-          return <Item shoes={shoes[i]} />;
-        })}
-      </Row>
+
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <>
+              <div className='main-bg'></div>
+              <Row>
+                {shoes.map((_, i) => {
+                  return <Item shoes={shoes[i]} />;
+                })}
+              </Row>
+            </>
+          }></Route>
+        <Route path='/detail' element={<Detail />}></Route>
+        <Route path='/about' element={<About />}>
+          <Route path='member' element={<div>멤버임</div>} />
+          <Route path='location' element={<div>위치정보임</div>} />
+        </Route>
+        <Route path='*' element={<div>없는페이지요</div>}></Route>
+      </Routes>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <div>
+      <h4>회사정보임</h4>
+      <Outlet></Outlet>
     </div>
   );
 }
