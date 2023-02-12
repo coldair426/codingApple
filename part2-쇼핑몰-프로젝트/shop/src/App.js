@@ -4,10 +4,14 @@ import './App.css';
 import data from './data.js';
 import Detail from './pages/Detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import axios from 'axios';
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
+  let [svData, setSvData] = useState();
+  let [moreButton, setMoreButton] = useState(0);
+  let [loading, setLoading] = useState(false);
 
   return (
     <div className='App'>
@@ -39,9 +43,45 @@ function App() {
               <div className='main-bg'></div>
               <Row>
                 {shoes.map((_, i) => {
-                  return <Item shoes={shoes[i]} />;
+                  return <Item shoes={shoes[i]} index={i} />;
                 })}
               </Row>
+              <button
+                onClick={() => {
+                  setLoading(true);
+                  setMoreButton((moreButton += 1));
+                  if (moreButton === 1) {
+                    axios
+                      .get('https://codingapple1.github.io/shop/data2.json')
+                      .then((data) => {
+                        const arr = [...shoes, ...data.data];
+                        setShoes(arr);
+                        setLoading(false);
+                      })
+                      .catch(() => {
+                        console.log('실패함ㅅㄱ');
+                        setLoading(false);
+                      });
+                  } else if (moreButton === 2) {
+                    axios
+                      .get('https://codingapple1.github.io/shop/data3.json')
+                      .then((data) => {
+                        const arr = [...shoes, ...data.data];
+                        setShoes(arr);
+                        setLoading(false);
+                      })
+                      .catch(() => {
+                        console.log('실패함ㅅㄱ');
+                        setLoading(false);
+                      });
+                  } else {
+                    alert('더 이상 상품이 없어요~~');
+                    setLoading(false);
+                  }
+                }}>
+                더보기
+              </button>
+              {loading ? <span>로딩중~</span> : null}
             </>
           }></Route>
         <Route path='/detail/:id' element={<Detail shoes={shoes} />}></Route>
@@ -80,7 +120,7 @@ function About() {
 function Item(props) {
   return (
     <Col sm>
-      <img src={props.shoes.img} width='80%'></img>
+      <img src={`https://codingapple1.github.io/shop/shoes${props.index + 1}.jpg`} width='80%'></img>
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.price}</p>
     </Col>

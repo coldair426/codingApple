@@ -37,7 +37,7 @@ function Detail(props) {
       </button>
       <div className='row'>
         <div className='col-md-6'>
-          <img src={pickedShoes.img} width='100%' />
+          <img src={`https://codingapple1.github.io/shop/shoes${+id + 1}.jpg`} width='100%' />
         </div>
         <div className='col-md-6'>
           {warn === false ? null : <div className='alert alert-warning'>경고:숫자만입력하세요</div>}
