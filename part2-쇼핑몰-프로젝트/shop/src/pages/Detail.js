@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 
-function Detail(props) {
+function Detail({ shoes }) {
   let [sale, setSale] = useState(1);
   let [count, setCount] = useState(0);
   let { id } = useParams();
-  let pickedShoes = props.shoes.find((obj) => obj.id === +id);
+  let pickedShoes = shoes.find((obj) => obj.id === +id);
   let [warn, setWarn] = useState(false);
   let [userInput, setUserInput] = useState('');
   let [tab, setTab] = useState(0);
@@ -25,8 +25,16 @@ function Detail(props) {
     };
   }, [userInput]);
 
+  let [fade2, setFade2] = useState('');
+  useEffect(() => {
+    setTimeout(() => {
+      setFade2('end');
+    }, 100);
+    return () => setFade2('');
+  }, []);
+
   return (
-    <div className='container'>
+    <div className={`container start ${fade2}`}>
       {sale ? <div className='alert alert-warning'>2초이내 구매시 할인</div> : null}
       {count}
       <button
@@ -69,7 +77,18 @@ function Detail(props) {
 }
 
 function TabContent({ tab }) {
-  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab];
+  let [fade, setFade] = useState('');
+  useEffect(() => {
+    setTimeout(() => {
+      setFade('end');
+    }, 100);
+
+    return () => {
+      setFade('');
+    };
+  }, [tab]);
+
+  return <div className={`start ${fade}`}>{[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}</div>;
 }
 
 export default Detail;

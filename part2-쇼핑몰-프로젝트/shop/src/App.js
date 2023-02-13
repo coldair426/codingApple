@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import { Row, Col, Navbar, Nav, Container } from 'react-bootstrap';
 import './App.css';
 import data from './data.js';
 import Detail from './pages/Detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
+import Cart from './pages/Cart.js';
+
+let Context1 = createContext();
 
 function App() {
   let [shoes, setShoes] = useState(data);
+  let [재고] = useState([10, 11, 12]);
+
   let navigate = useNavigate();
   let [svData, setSvData] = useState();
   let [moreButton, setMoreButton] = useState(0);
@@ -93,6 +98,7 @@ function App() {
           <Route path='one' element={<div>첫 주문시 양배추즙 서비스</div>} />
           <Route path='two' element={<div>생일기념 쿠폰받기</div>} />
         </Route>
+        <Route path='/cart' element={<Cart />} />
         <Route path='*' element={<div>없는페이지요</div>}></Route>
       </Routes>
     </div>
