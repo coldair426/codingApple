@@ -9,8 +9,8 @@ let stock = createSlice({
     { id: 2, name: 'Grey Yordan', count: 1 },
   ],
   reducers: {
-    setStock(state) {
-      return '';
+    setStock(state, fid) {
+      state.find((v) => v.id === fid.payload).count += 1;
     },
   },
 });

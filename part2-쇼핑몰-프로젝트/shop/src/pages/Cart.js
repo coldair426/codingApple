@@ -40,7 +40,7 @@ function StockItems({ stock, index, dispatch }) {
       <td>
         <button
           onClick={() => {
-            dispatch(setUser());
+            dispatch(setStock(stock[index].id));
           }}>
           +
         </button>
