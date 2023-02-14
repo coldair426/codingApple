@@ -32,9 +32,15 @@ function App() {
             </Nav.Link>
             <Nav.Link
               onClick={() => {
-                navigate('./detail');
+                navigate('./detail/1');
               }}>
               Detail
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate('./cart');
+              }}>
+              Cart
             </Nav.Link>
           </Nav>
         </Container>

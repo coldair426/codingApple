@@ -44,6 +44,12 @@ function StockItems({ stock, index, dispatch }) {
           }}>
           +
         </button>
+        <button
+          onClick={() => {
+            dispatch(setStock(stock[index].id));
+          }}>
+          삭제
+        </button>
       </td>
     </tr>
   );
