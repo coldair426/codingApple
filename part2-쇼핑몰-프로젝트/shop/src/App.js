@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { Row, Col, Navbar, Nav, Container } from 'react-bootstrap';
 import './App.css';
 import data from './data.js';
@@ -10,6 +10,10 @@ import Cart from './pages/Cart.js';
 let Context1 = createContext();
 
 function App() {
+  useEffect(() => {
+    localStorage.getItem('watched') || localStorage.setItem('watched', JSON.stringify([]));
+  }, []);
+
   let [shoes, setShoes] = useState(data);
   let [재고] = useState([10, 11, 12]);
 
@@ -32,7 +36,19 @@ function App() {
             </Nav.Link>
             <Nav.Link
               onClick={() => {
+                navigate('./detail/0');
+              }}>
+              Detail
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
                 navigate('./detail/1');
+              }}>
+              Detail
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate('./detail/2');
               }}>
               Detail
             </Nav.Link>

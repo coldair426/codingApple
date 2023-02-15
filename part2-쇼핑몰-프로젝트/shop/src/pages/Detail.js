@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../store';
+// import { set } from 'immer/dist/internal';
 
 function Detail({ shoes }) {
   let [sale, setSale] = useState(1);
@@ -13,6 +14,13 @@ function Detail({ shoes }) {
   let [userInput, setUserInput] = useState('');
   let [tab, setTab] = useState(0);
   let dispatch = useDispatch();
+
+  useEffect(() => {
+    let watched = JSON.parse(localStorage.getItem('watched'));
+    watched.push(pickedShoes.id);
+    watched = [...new Set(watched)];
+    localStorage.setItem('watched', JSON.stringify(watched));
+  }, []);
 
   useEffect(() => {
     let a = setTimeout(() => setSale(0), 2000);
