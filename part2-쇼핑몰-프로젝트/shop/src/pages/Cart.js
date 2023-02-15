@@ -1,3 +1,4 @@
+import { memo, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import { useDispatch, useSelector } from 'react-redux';
 import { setStock } from '../store';
@@ -7,6 +8,7 @@ function Cart() {
   let user = useSelector((state) => state.user);
   let stock = useSelector((state) => state.stock);
   let dispatch = useDispatch();
+  let [count, setCount] = useState(0);
 
   return (
     <div>
