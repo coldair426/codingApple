@@ -6,6 +6,7 @@ import Detail from './pages/Detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import Cart from './pages/Cart.js';
+import { useQuery } from 'react-query';
 
 let Context1 = createContext();
 
@@ -21,6 +22,13 @@ function App() {
   let [svData, setSvData] = useState();
   let [moreButton, setMoreButton] = useState(0);
   let [loading, setLoading] = useState(false);
+
+  let result = useQuery('작명', () => {
+    return axios.get('https://codingapple1.github.io/userdata.json').then((a) => {
+      console.log('요청됨');
+      return a.data;
+    });
+  });
 
   return (
     <div className='App'>
@@ -58,6 +66,11 @@ function App() {
               }}>
               Cart
             </Nav.Link>
+          </Nav>
+          <Nav className='ms-auto' style={{ color: 'white' }}>
+            {result.isLoading && '로딩중'}
+            {result.error && '에러남'}
+            {result.data && result.data.name}
           </Nav>
         </Container>
       </Navbar>
